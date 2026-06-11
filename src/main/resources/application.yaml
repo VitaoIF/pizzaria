@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: pizzaria
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pizzaria
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
+  flyway:
+    enabled: true
