@@ -23,4 +23,12 @@ public class CategoryService {
 
         return CategoryMapper.toCategoryResponse(saved);
     }
+
+    @Transactional
+    public CategoryResponse findById(Long id){
+        Category categoryById = categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Id not founded"));
+
+        return CategoryMapper.toCategoryResponse(categoryById);
+    }
 }
