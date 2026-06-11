@@ -4,6 +4,8 @@ import com.pizza.pizzaria.dtos.request.CategoryRequest;
 import com.pizza.pizzaria.dtos.response.CategoryResponse;
 import com.pizza.pizzaria.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -32,6 +34,12 @@ public class CategoryController {
     @GetMapping(value = "{id}")
     public ResponseEntity<CategoryResponse> findById(@PathVariable Long id){
         CategoryResponse categoryResponse = categoryService.findById(id);
+        return ResponseEntity.ok().body(categoryResponse);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<CategoryResponse>> findAll(Pageable pageable){
+        Page<CategoryResponse> categoryResponse = categoryService.findAll(pageable);
         return ResponseEntity.ok().body(categoryResponse);
     }
 }
