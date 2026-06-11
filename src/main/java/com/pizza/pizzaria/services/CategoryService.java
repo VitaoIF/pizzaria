@@ -6,6 +6,8 @@ import com.pizza.pizzaria.entities.Category;
 import com.pizza.pizzaria.mapper.CategoryMapper;
 import com.pizza.pizzaria.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,5 +32,11 @@ public class CategoryService {
                 .orElseThrow(() -> new RuntimeException("Id not founded"));
 
         return CategoryMapper.toCategoryResponse(categoryById);
+    }
+
+    @Transactional
+    public Page<CategoryResponse> findAll(Pageable pageable){
+        Page<Category> categories = categoryRepository.findAll(pageable);
+        return categories.map(CategoryMapper::toCategoryResponse);
     }
 }
