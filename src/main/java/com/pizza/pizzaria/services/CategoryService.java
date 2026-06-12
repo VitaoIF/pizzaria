@@ -39,4 +39,21 @@ public class CategoryService {
         Page<Category> categories = categoryRepository.findAll(pageable);
         return categories.map(CategoryMapper::toCategoryResponse);
     }
+
+    @Transactional
+    public void delete(Long id){
+        categoryRepository.deleteById(id);
+    }
+
+    @Transactional
+    public CategoryResponse update(Long id, CategoryRequest categoryRequest){
+        Category entity = categoryRepository.getReferenceById(id);
+        updateCategory(entity, categoryRequest);
+        Category updated = categoryRepository.save(entity);
+        return CategoryMapper.toCategoryResponse(updated);
+    }
+
+    private void updateCategory(Category entity, CategoryRequest categoryRequest) {
+        entity.setName(categoryRequest.name());
+    }
 }
