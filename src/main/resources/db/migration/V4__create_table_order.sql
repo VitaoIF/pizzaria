@@ -1,0 +1,14 @@
+CREATE SEQUENCE order_seq
+START WITH 1
+INCREMENT BY 1;
+
+CREATE TABLE orders(
+    id BIGINT PRIMARY KEY DEFAULT nextval('order_seq'),
+    name varchar(255) NOT NULL,
+    table_number INTEGER NOT NULL,
+    draft BOOLEAN NOT NULL DEFAULT TRUE,
+    status varchar(50) NOT NULL,
+
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
