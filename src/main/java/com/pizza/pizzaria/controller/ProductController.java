@@ -36,4 +36,10 @@ public class ProductController {
         Page<ProductResponse> productResponse = productService.findAll(pageable);
         return ResponseEntity.ok().body(productResponse);
     }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<ProductResponse> findById(@PathVariable Long id){
+        ProductResponse productResponse = productService.findById(id);
+        return ResponseEntity.ok().body(productResponse);
+    }
 }
