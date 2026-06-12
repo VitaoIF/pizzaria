@@ -8,6 +8,8 @@ import com.pizza.pizzaria.mapper.ProductMapper;
 import com.pizza.pizzaria.repository.CategoryRepository;
 import com.pizza.pizzaria.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,5 +31,11 @@ public class ProductService {
         Product save = productRepository.save(product);
 
         return ProductMapper.toProductResponse(save);
+    }
+
+    @Transactional
+    public Page<ProductResponse> findAll(Pageable pageable){
+        Page<Product> products = productRepository.findAll(pageable);
+        return products.map(ProductMapper::toProductResponse);
     }
 }
