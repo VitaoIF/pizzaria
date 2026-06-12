@@ -38,4 +38,35 @@ public class ProductService {
         Page<Product> products = productRepository.findAll(pageable);
         return products.map(ProductMapper::toProductResponse);
     }
+
+    @Transactional
+    public ProductResponse findById(Long id){
+        Product productById = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+
+        return ProductMapper.toProductResponse(productById);
+    }
+
+    public void delete(Long id){
+        productRepository.deleteById(id);
+    }
+
+    @Transactional
+    public ProductResponse update(Long id, ProductRequest productRequest){
+        Product product = productRepository.getReferenceById(id);
+        Category category = categoryRepository.getReferenceById(productRequest.categoryId());
+        updateProduct(product, productRequest, category);
+
+        Product updated = productRepository.save(product);
+
+        return ProductMapper.toProductResponse(updated);
+    }
+
+    private void updateProduct(Product product, ProductRequest productRequest, Category category) {
+        product.setName(productRequest.name());
+        product.setDescription(productRequest.description());
+        product.setBanner(productRequest.banner());
+        product.setActive(productRequest.active());
+        product.setCategory(category);
+    }
 }
