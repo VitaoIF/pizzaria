@@ -42,4 +42,16 @@ public class CategoryController {
         Page<CategoryResponse> categoryResponse = categoryService.findAll(pageable);
         return ResponseEntity.ok().body(categoryResponse);
     }
+
+    @DeleteMapping
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        categoryService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping(value = "{id}")
+    public ResponseEntity<CategoryResponse> update(@PathVariable Long id, @RequestBody CategoryRequest categoryRequest){
+        CategoryResponse categoryResponse = categoryService.update(id, categoryRequest);
+        return ResponseEntity.ok().body(categoryResponse);
+    }
 }
