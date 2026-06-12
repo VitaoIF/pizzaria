@@ -49,4 +49,9 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<ProductResponse> updated(@PathVariable Long id, @RequestBody ProductRequest productRequest){
+        ProductResponse productResponse = productService.update(id, productRequest);
+        return ResponseEntity.ok().body(productResponse);
+    }
 }
