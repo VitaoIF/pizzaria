@@ -3,6 +3,7 @@ package com.pizza.pizzaria.services;
 import com.pizza.pizzaria.dtos.request.CategoryRequest;
 import com.pizza.pizzaria.dtos.response.CategoryResponse;
 import com.pizza.pizzaria.entities.Category;
+import com.pizza.pizzaria.exceptions.custom.CategoryNotFoundException;
 import com.pizza.pizzaria.mapper.CategoryMapper;
 import com.pizza.pizzaria.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class CategoryService {
     @Transactional
     public CategoryResponse findById(Long id){
         Category categoryById = categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Id not founded"));
+                .orElseThrow(() -> new CategoryNotFoundException("Categoria não encontrada"));
 
         return CategoryMapper.toCategoryResponse(categoryById);
     }
