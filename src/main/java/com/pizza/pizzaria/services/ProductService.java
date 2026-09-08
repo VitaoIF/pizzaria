@@ -4,6 +4,8 @@ import com.pizza.pizzaria.dtos.request.ProductRequest;
 import com.pizza.pizzaria.dtos.response.ProductResponse;
 import com.pizza.pizzaria.entities.Category;
 import com.pizza.pizzaria.entities.Product;
+import com.pizza.pizzaria.exceptions.custom.CategoryNotFoundException;
+import com.pizza.pizzaria.exceptions.custom.ProductNotFoundException;
 import com.pizza.pizzaria.mapper.ProductMapper;
 import com.pizza.pizzaria.repository.CategoryRepository;
 import com.pizza.pizzaria.repository.ProductRepository;
@@ -25,7 +27,7 @@ public class ProductService {
     @Transactional
     public ProductResponse insert(ProductRequest productRequest){
         Category category = categoryRepository.findById(productRequest.categoryId())
-                .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+                .orElseThrow(() -> new CategoryNotFoundException("Categoria não encontrada"));
 
         Product product = ProductMapper.toEntity(productRequest, category);
         Product save = productRepository.save(product);
@@ -42,7 +44,7 @@ public class ProductService {
     @Transactional
     public ProductResponse findById(Long id){
         Product productById = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+                .orElseThrow(() -> new ProductNotFoundException("Produto não encontrado"));
 
         return ProductMapper.toProductResponse(productById);
     }
